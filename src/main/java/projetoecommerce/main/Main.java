@@ -1,52 +1,52 @@
 package projetoecommerce.main;
 
+import projetoecommerce.database.DataBaseConnection;
 import projetoecommerce.exceptions.EmailOuSenhaIncorretoException;
 import projetoecommerce.users.ServicoDeLogin;
+import projetoecommerce.users.Usuario;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-       /* try (Connection connection = DataBaseConnection.getConnection()) {
-            // Insira um novo usuário na tabela "usuarios"
-            String insertUserSQL = "INSERT INTO usuarios (nome, email, senha, telefone, rua, numero, bairro, cidade, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insertUserSQL);
-            preparedStatement.setString(1, "");
-            preparedStatement.setString(2, "");
-            preparedStatement.setString(3, "");
-            preparedStatement.setString(4, "");
-            preparedStatement.setString(5, "");
-            preparedStatement.setInt(6,0 );
-            preparedStatement.setString(7, "");
-            preparedStatement.setString(8, "");
-            preparedStatement.setString(9, "");
+        ServicoDeLogin loginService = new ServicoDeLogin();
+        //Criando um novo usuario
+      Usuario novoUsuario = new Usuario();
+        novoUsuario.setNome("Felix");
+        novoUsuario.setEmail("Felix@email.com");
+        novoUsuario.setSenha("12345");
+        novoUsuario.setTelefone("123456789");
+        novoUsuario.setRua("Rua D");
+        novoUsuario.setNumero(123);
+        novoUsuario.setBairro("Bairro D");
+        novoUsuario.setCidade("Cidade D");
+        novoUsuario.setCep("28345-678");
 
-            int rowsAffected = preparedStatement.executeUpdate();
+        // Conectar ao banco de dados e realizar operações
+        try (Connection connection = DataBaseConnection.getConnection()) {
+           novoUsuario.cadastrar(); // Cadastra o usuário
 
-            // Verifique se a inserção foi bem-sucedida
-            if (rowsAffected > 0) {
-                System.out.println("Usuário inserido com sucesso!");
-            } else {
-                System.out.println("Falha ao inserir usuário.");
+            // Tenta fazer login
+        /*    try {
+                boolean loginSucesso = loginService.login("exemplo@email.com", "12345");
+                if (loginSucesso) {
+                    System.out.println("Login realizado com sucesso");
+                }
+            } catch (EmailOuSenhaIncorretoException e) {
+                System.out.println("Erro no login: " + e.getMessage());
             }
+
+         */
+
+            // Atualiza os dados do perfil
+          //  loginService.atualizarDadosPerfil(2, "Paulo", "paulo@email.com", "984624731", "Rua 20", 156, "Bairro C", "Cidade C", "25664-321");
+
+            // Atualiza a senha
+//loginService.atualizarSenha("novo@email.com", "novaSenha123");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        */
-
-        ServicoDeLogin loginService = new ServicoDeLogin();
-
-        String email = "decoo.matos@live.com";
-        String senha = "senha";
-
-        try{
-            boolean sucesso = loginService.login(email,senha);
-            if (sucesso){
-                System.out.println("Login realizado com sucesso");
-            }
-        }catch (EmailOuSenhaIncorretoException e){
-            System.out.println("Falha no login " + e.getMessage());
-        }
     }
 }
-// CRIAR O METODO DE ATUALIZAR PERFIL

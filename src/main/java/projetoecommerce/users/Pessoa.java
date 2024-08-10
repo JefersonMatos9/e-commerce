@@ -91,13 +91,5 @@ public abstract class Pessoa {
         this.cep = cep;
     }
 
-    public void cadastrar(){
-
-    }
-    public void login(){
-
-    }
-    public void atualizarPerfil(){
-
-    }
+    public abstract void cadastrar();
 }

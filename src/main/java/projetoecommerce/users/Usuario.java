@@ -1,20 +1,17 @@
 package projetoecommerce.users;
 
+import projetoecommerce.database.DataBaseConnection;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Usuario extends Pessoa {
-
+    @Override
     public void cadastrar() {
-        String url = "jdbc:mysql://localhost:3306/e-commerce";
-        String user = "root";
-        String password = "";
-
-        String query = "INSERT INTO usuario (nome, email, senha, endereco, telefone) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
+        String query = "INSERT INTO usuarios (nome, email, senha, telefone, rua, numero, bairro, cidade, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, this.getNome());
@@ -31,7 +28,6 @@ public class Usuario extends Pessoa {
             if (rowsAffected > 0) {
                 System.out.println("Usuário cadastrado com sucesso!");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
