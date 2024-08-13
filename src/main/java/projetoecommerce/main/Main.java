@@ -2,6 +2,8 @@ package projetoecommerce.main;
 
 import projetoecommerce.database.DataBaseConnection;
 import projetoecommerce.exceptions.EmailOuSenhaIncorretoException;
+import projetoecommerce.product.GerenciarProdutos;
+import projetoecommerce.product.Produto;
 import projetoecommerce.users.ServicoDeLogin;
 import projetoecommerce.users.Usuario;
 
@@ -10,40 +12,21 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        ServicoDeLogin loginService = new ServicoDeLogin();
-        //Criando um novo usuario
-      Usuario novoUsuario = new Usuario();
-        novoUsuario.setNome("Felix");
-        novoUsuario.setEmail("Felix@email.com");
-        novoUsuario.setSenha("12345");
-        novoUsuario.setTelefone("123456789");
-        novoUsuario.setRua("Rua D");
-        novoUsuario.setNumero(123);
-        novoUsuario.setBairro("Bairro D");
-        novoUsuario.setCidade("Cidade D");
-        novoUsuario.setCep("28345-678");
+        GerenciarProdutos gerenciarProdutos = new GerenciarProdutos();
+        //Criando um novo produto;
+        gerenciarProdutos.setNome("CAMISETA CAVALERA");
+        gerenciarProdutos.setDescricao("T-SHIRT CAVALERA");
+        gerenciarProdutos.setPreco(199.99);
+        gerenciarProdutos.setQuantidadeEstoque(2);
+        gerenciarProdutos.setTamanho("M");
+        gerenciarProdutos.setCor("VERMELHA");
 
         // Conectar ao banco de dados e realizar operações
         try (Connection connection = DataBaseConnection.getConnection()) {
-           novoUsuario.cadastrar(); // Cadastra o usuário
+           gerenciarProdutos.adicionarProduto(); // Cadastra o produto
 
-            // Tenta fazer login
-        /*    try {
-                boolean loginSucesso = loginService.login("exemplo@email.com", "12345");
-                if (loginSucesso) {
-                    System.out.println("Login realizado com sucesso");
-                }
-            } catch (EmailOuSenhaIncorretoException e) {
-                System.out.println("Erro no login: " + e.getMessage());
-            }
-
-         */
-
-            // Atualiza os dados do perfil
-          //  loginService.atualizarDadosPerfil(2, "Paulo", "paulo@email.com", "984624731", "Rua 20", 156, "Bairro C", "Cidade C", "25664-321");
-
-            // Atualiza a senha
-//loginService.atualizarSenha("novo@email.com", "novaSenha123");
+           // gerenciarProdutos.setId(1); // Escolhendo o id do produto que sera alterado a quantidade;
+            // gerenciarProdutos.atualizarEstoque(5); // adicionando a nova quantidade de estoque;
 
         } catch (SQLException e) {
             e.printStackTrace();
