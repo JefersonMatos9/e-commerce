@@ -14,22 +14,23 @@ public class Main {
     public static void main(String[] args) {
         GerenciarProdutos gerenciarProdutos = new GerenciarProdutos();
         //Criando um novo produto;
-        gerenciarProdutos.setNome("CAMISETA CAVALERA");
-        gerenciarProdutos.setDescricao("T-SHIRT CAVALERA");
-        gerenciarProdutos.setPreco(199.99);
+        gerenciarProdutos.setNome("CAlÇA JEANS");
+        gerenciarProdutos.setDescricao("CALÇA JEANS DACOTA");
+        gerenciarProdutos.setPreco(399.99);
         gerenciarProdutos.setQuantidadeEstoque(2);
-        gerenciarProdutos.setTamanho("M");
-        gerenciarProdutos.setCor("VERMELHA");
+        gerenciarProdutos.setTamanho("42");
+        gerenciarProdutos.setCor("JEANS");
 
         // Conectar ao banco de dados e realizar operações
         try (Connection connection = DataBaseConnection.getConnection()) {
-           gerenciarProdutos.adicionarProduto(); // Cadastra o produto
-
-           // gerenciarProdutos.setId(1); // Escolhendo o id do produto que sera alterado a quantidade;
+          // gerenciarProdutos.adicionarProduto(); // Cadastra o produto
+           //  gerenciarProdutos.setId(6); // Escolhendo o id do produto que sera alterado a quantidade;
             // gerenciarProdutos.atualizarEstoque(5); // adicionando a nova quantidade de estoque;
+            //gerenciarProdutos.removerProduto(5); // exclui produto
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
+

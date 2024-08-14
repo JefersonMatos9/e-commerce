@@ -67,5 +67,5 @@ public abstract class Produto {
 
     public abstract void adicionarProduto();
     public abstract void atualizarEstoque(int novaQuantidade);
-    public abstract void removerProduto();
+    public abstract void removerProduto(int produtoId);
 }

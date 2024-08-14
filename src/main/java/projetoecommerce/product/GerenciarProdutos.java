@@ -57,7 +57,26 @@ String query = "UPDATE produtos SET quantidade_estoque = ? WHERE id = ?";
     }
 
     @Override
-    public void removerProduto() {
+    public void removerProduto(int produtoId) {
+String query = "DELETE FROM produtos WHERE id = ?";
 
+// Usando try-with-resources para garantir que a conexão e o statement sejam fechados corretamente
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1,produtoId);
+
+            // Executando a consulta e verificando se o produto foi excluido com sucesso
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Estoque atualizado com sucesso!");
+            } else {
+                System.out.println("Nenhum produto encontrado com o ID fornecido.");
+            }
+        } catch (SQLException e) {
+            // Tratamento de exceções
+            e.printStackTrace();
+        }
+        }
     }
-}
+
