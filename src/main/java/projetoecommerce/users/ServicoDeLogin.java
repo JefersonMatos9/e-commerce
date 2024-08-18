@@ -15,13 +15,13 @@ public class ServicoDeLogin {
             throw new EmailOuSenhaIncorretoException("E-mail não possui cadastro.");
         }
         if (usuario.getSenha().equals(senha)) {
-            return true;
+            return true; // retorne o usuario autenticado
         } else {
             throw new EmailOuSenhaIncorretoException("Senha incorreta.");
         }
     }
 
-    private Usuario obterUsuarioPorEmail(String email) {
+    public Usuario obterUsuarioPorEmail(String email) {
         String query = "SELECT * FROM usuarios WHERE email = ?";
 
         try (Connection conn = DataBaseConnection.getConnection();
