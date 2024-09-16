@@ -1,14 +1,16 @@
-package projetoecommerce.product;
+package projetoecommerce.model;
 
-public abstract class Produto {
+public class Produto {
     private int id;
     private String nome;
-    private String descricao;
-    private int quantidadeEstoque;
     private double preco;
+    private int quantidadeEstoque;
+    private String descricao;
     private String tamanho;
     private String cor;
 
+
+    // Getters e setters
     public int getId() {
         return id;
     }
@@ -25,12 +27,12 @@ public abstract class Produto {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     public int getQuantidadeEstoque() {
@@ -41,12 +43,12 @@ public abstract class Produto {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-    public double getPreco() {
-        return preco;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getTamanho() {
@@ -64,8 +66,4 @@ public abstract class Produto {
     public void setCor(String cor) {
         this.cor = cor;
     }
-
-    public abstract void adicionarProduto();
-    public abstract void atualizarEstoque(int novaQuantidade);
-    public abstract void removerProduto(int produtoId);
 }

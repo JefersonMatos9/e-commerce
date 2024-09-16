@@ -1,69 +1,116 @@
 package projetoecommerce.main;
 
-import projetoecommerce.cart.Carrinho;
-import projetoecommerce.cart.CarrinhoUsuario;
-import projetoecommerce.database.DataBaseConnection;
-import projetoecommerce.exceptions.EmailOuSenhaIncorretoException;
-import projetoecommerce.product.GerenciarProdutos;
-import projetoecommerce.product.Produto;
-import projetoecommerce.users.ServicoDeLogin;
-import projetoecommerce.users.Usuario;
+import projetoecommerce.exception.EmailOuSenhaIncorretoException;
+import projetoecommerce.exception.EstoqueInsuficienteException;
+import projetoecommerce.exception.ProdutoNaoEncontradoException;
+import projetoecommerce.exception.UsuarioNaoLogadoException;
+import projetoecommerce.model.Carrinho;
+import projetoecommerce.model.Produto;
+import projetoecommerce.model.Usuario;
+import projetoecommerce.repository.UsuarioRepository;
+import projetoecommerce.service.CarrinhoService;
+import projetoecommerce.service.LoginService;
+import projetoecommerce.service.ProdutoService;
+import projetoecommerce.service.UsuarioService;
+import projetoecommerce.util.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        GerenciarProdutos gerenciarProdutos = new GerenciarProdutos();
-        CarrinhoUsuario carrinho = new CarrinhoUsuario();
-        ServicoDeLogin servicoDeLogin = new ServicoDeLogin();
+        Usuario usuario = new Usuario();
+        Produto produto = new Produto();
+        Carrinho carrinho = new Carrinho();
+        UsuarioService usuarioService = new UsuarioService();
+        ProdutoService produtoService = new ProdutoService();
+        LoginService loginService = new LoginService();
+        CarrinhoService carrinhoService = new CarrinhoService();
 
-        //Simulação de login e definição do usuario
-        String email ="deco@email.com";
-        String senha = "novaSenha123";
+        loginService.setUsuarioService(usuarioService); // CONFIGURAÇÃO DO LoginService.
+        carrinhoService.setLoginService(loginService); //CONFIGURAÇÃO DO CarrinhoService.
+        carrinhoService.setUsuarioLogado(loginService.getUsuarioLogado()); //INICIALMENTE NENHUM USUÁRIO LOGADO.
 
-        //Criando um novo produto;
-        gerenciarProdutos.setNome("CAlÇA JEANS");
-        gerenciarProdutos.setDescricao("CALÇA JEANS DACOTA");
-        gerenciarProdutos.setPreco(399.99);
-        gerenciarProdutos.setQuantidadeEstoque(2);
-        gerenciarProdutos.setTamanho("42");
-        gerenciarProdutos.setCor("JEANS");
+        //CADASTRANDO DADOS DE UM USUARIO
+        //usuario.setId(7);//ESSE COMANDO SÓ E UTILIZADO CASO QUEIRA ALTERAR ALGUM DADO DO USUARIO.
 
-        // Conectar ao banco de dados e realizar operações
-        try (Connection connection = DataBaseConnection.getConnection()) {
-          // gerenciarProdutos.adicionarProduto(); // Cadastra o produto
-           //  gerenciarProdutos.setId(6); // Escolhendo o id do produto que sera alterado a quantidade;
-            // gerenciarProdutos.atualizarEstoque(5); // adicionando a nova quantidade de estoque;
-            //gerenciarProdutos.removerProduto(5); // exclui produto
+        usuario.setNome("PM TOPSSIMO");
+        usuario.setEmail("pm@topssimo");
+        usuario.setSenha("123456");
+        usuario.setTelefone("169960215");
+        usuario.setRua("Rua F");
+        usuario.setNumero(361);
+        usuario.setBairro("Bairro H");
+        usuario.setCidade("Cidade KKK");
+        usuario.setCep("12349958");
 
-            //verifica se o login foi bem sucedido
-            boolean loginSucesso = servicoDeLogin.login(email,senha);
-            if (loginSucesso){
-                //usando email para definir o usuario e definir o ID do usuario no carrinho
-                Usuario usuario = servicoDeLogin.obterUsuarioPorEmail(email);
-                if (usuario != null){
-                    carrinho.setUsuarioId(String.valueOf(usuario.getId())); //convertendo o ID do usuario para String
-                }else {
-                    System.out.println("Usuario não encontrado");
-                    return;
-                }
-            }
+        //CADASTRANDO UM NOVO PRODUTO
+        produto.setNome("TENIS NIKE");
+        produto.setDescricao("TENIS NIKE RUNNING");
+        produto.setPreco(799.99);
+        produto.setQuantidadeEstoque(5);
+        produto.setTamanho("41");
+        produto.setCor("BRANCO/PRETO");
 
-            //assumindo que o ID do produto no banco de dados é o numero desejado, pode ser usados outros atributos como nome.
-            gerenciarProdutos.setId(1);
 
-            //definindo a quantidade a ser adicionada ao carrinho;
-            int quantidade = 2;
-            //tentando adicionar o produto ao carrinho
-            Produto produtoAdicionado = carrinho.adicionarProduto(gerenciarProdutos, quantidade);
-            System.out.println("Produto adicionado ao carrinho " + produtoAdicionado.getNome());
+        //PASSANDO OS DADOS DE LOGIN DO USUARIO.
+        //usuario.setEmail("deco@email.com");
+        //usuario.setSenha("novaSenha123");
+
+        // VERIFICAR SE O VALOR TOTAL ENTROU NA TABELA DO BANCO DE DADOS.
+
+        //CONECTANDO AO BANCO DE DADOS E REALIZANDO OPERAÇÕES
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            //METODOS DA CLASSE UsuarioService
+
+            //usuarioService.cadastrar(usuario); // CADASTRANDO UM USUARIO.
+
+            //usuarioService.obterPorEmail("josii@email.com"); //OBTENDO UM USUÁRIO POR E-MAIL.
+
+            //usuarioService.atualizarPerfil(usuario);//ATUALIZANDO DADOS DO USUÁRIO.
+
+            //usuario.setId(6);//SELECIONANDO O ID A SER REMOVIDO.
+            //usuarioService.deletarUsuario(usuario); // REMOVENDO O USUÁRIO.
+
+            //usuarioService.atualizarSenha("deco@email.com","miguel123");//ATUALIZA SENHA USUARIO.
+
+            //METODOS DA CLASSE ProdutoService
+
+            //produtoService.adicionarProduto(produto);// CADASTRANDO UM NOVO PRODUTO.
+
+            //produtoService.removerProduto(3); //REMOVENDO PRODUTO.
+
+            //produtoService.atualizarEstoque(1,5); //ATUALIZA O ESTOQUE DOS PRODUTOS.
+
+            //METODO DA CLASSE LoginService
+            loginService.login("paulo@email.com", "12345"); //REALIZANDO O LOGIN SE BEM SUCEDIDO O USUÁRIO SERÁ AUTENTICADO.
+
+            Usuario usuarioLogado = loginService.getUsuarioLogado(); //OBTEM O USUARIO LOGADO.
+            carrinhoService.setUsuarioLogado(usuarioLogado); //DEFINE O USUARIO LOGADO NO CARRINHO, PERMITE QUE O CARRINHO SAIBA QUAL USUARIO ESTA LOGADO AO SERVICO DE CARRINHO.
+
+            //loginService.logout();//DESLOGANDO O USUARIO.
+
+            //METODOS DA CLASSE CarrinhoService
+
+            produto = produtoService.obterPorid(7); //OBTENDO O PRODUTO POR ID.
+            //Produto produto2 = produtoService.obterPorid(); //OBTENDO O PRODUTO POR ID.
+
+            //carrinhoService.atualizarOuInserir( produto, 8); //ADICIONANDO O PRODUTO AO CARRINHO
+            //carrinhoService.atualizarOuInserir( produto2, 1); //ADICIONANDO O PRODUTO AO CARRINHO
+
+            carrinhoService.removerProduto(produto, 8);
+            //VERIFICAR SE OS PRODUTOS ESTAO SENDO ADICIONADOS AO BANCO DE DADOS.
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
         } catch (EmailOuSenhaIncorretoException e) {
+            throw new RuntimeException(e);
+        } catch (UsuarioNaoLogadoException e) {
+            throw new RuntimeException(e);
+        } catch (ProdutoNaoEncontradoException e) {
             throw new RuntimeException(e);
         }
     }
 }
-

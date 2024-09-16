@@ -1,6 +1,6 @@
-package projetoecommerce.users;
+package projetoecommerce.model;
 
-public abstract class Pessoa {
+public class Usuario {
     private int id;
     private String nome;
     private String email;
@@ -43,6 +43,7 @@ public abstract class Pessoa {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
     public String getTelefone() {
         return telefone;
     }
@@ -90,6 +91,4 @@ public abstract class Pessoa {
     public void setCep(String cep) {
         this.cep = cep;
     }
-
-    public abstract void cadastrar();
 }
